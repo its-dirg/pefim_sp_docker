@@ -1,0 +1,3 @@
+git+https://github.com/HaToHo/pysaml2.git#egg=pysaml2
+cherrypy==3.2.4
+python-ldap
