@@ -6,7 +6,7 @@
 #
 
 # Name of config file
-conf=service_conf
+conf=service_conf.py
 
 # Image name
 image=itsdirg/pefim_sp
@@ -17,20 +17,7 @@ name=pefim_sp
 # relative path to volume
 volume=etc
 
-function get_port {
-PYTHON_CONF="$1" PYTHON_PATH="$2" python - <<END
-import sys
-import os
-import importlib
-
-sys.path.append(os.environ['PYTHON_PATH'])
-CONFIG = importlib.import_module(os.environ['PYTHON_CONF'])
-print CONFIG.PORT
-
-END
-}
-
-port=$(get_port ${conf} ${volume})
+port=$(cat ${volume}/${conf} | grep PORT | head -1 | sed 's/[^0-9]//g')
 
 # Check if running on mac
 if [ $(uname) = "Darwin" ]; then
@@ -43,7 +30,7 @@ if [ $(uname) = "Darwin" ]; then
             port_b2d=1
             VBoxManage controlvm "boot2docker-vm" natpf1 "${name},tcp,127.0.0.1,${port},,${port}"
         else
-            echo "Port: " ${port} " is already used! Change port in the files (run.sh, sp_conf.py, service_conf.py). This will be better in the future..."
+            echo "Port: " ${port} " is already used! Change port in the files " ${conf}
             exit 1
         fi
     fi
