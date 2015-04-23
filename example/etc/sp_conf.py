@@ -5,6 +5,7 @@ from saml2 import BINDING_HTTP_REDIRECT, BINDING_HTTP_POST
 from saml2.cert import OpenSSLWrapper
 from saml2.extension.idpdisc import BINDING_DISCO
 from saml2.saml import NAME_FORMAT_URI, NAMEID_FORMAT_PERSISTENT
+import service_conf
 
 try:
     from saml2.sigver import get_xmlsec_binary
@@ -17,7 +18,7 @@ else:
     xmlsec_path = '/usr/bin/xmlsec1'
 
 HOST = 'localhost'
-PORT = 8087
+PORT = service_conf.PORT
 
 BASE = "https://%s:%s" % (HOST, PORT)
 
@@ -77,7 +78,7 @@ CONFIG = {
     "organization": {
         "name": "Test SP",
         "display_name": [("Test SP", "en")],
-        "url": "http://localhost:8087",
+        "url": "http://localhost:%s" % PORT,
     },
     "contact_person": [
         {
