@@ -1,8 +1,8 @@
 from saml2.assertion import Policy
 
-HOST = '127.0.0.1'
+HOST = 'localhost'
 PORT = 8087
-HTTPS = False
+HTTPS = True
 
 # Which groups of entity categories to use
 POLICY = Policy(
