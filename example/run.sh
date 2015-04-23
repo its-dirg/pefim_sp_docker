@@ -5,9 +5,32 @@
 #   DOCKERARGS="--entrypoint /bin/bash" bash -x ./run.sh
 #
 
-port=8087
+# Name of config file
+conf=service_conf
+
+# Image name
 image=itsdirg/pefim_sp
+
+# Name of container
 name=pefim_sp
+
+# relative path to volume
+volume=etc
+
+function get_port {
+PYTHON_CONF="$1" PYTHON_PATH="$2" python - <<END
+import sys
+import os
+import importlib
+
+sys.path.append(os.environ['PYTHON_PATH'])
+CONFIG = importlib.import_module(os.environ['PYTHON_CONF'])
+print CONFIG.PORT
+
+END
+}
+
+port=$(get_port ${conf} ${volume})
 
 # Check if running on mac
 if [ $(uname) = "Darwin" ]; then
@@ -17,6 +40,7 @@ if [ $(uname) = "Darwin" ]; then
 
     if [ ${port_b2d} = 0 ]; then
         if [ ${port_check} = 0 ]; then
+            port_b2d=1
             VBoxManage controlvm "boot2docker-vm" natpf1 "${name},tcp,127.0.0.1,${port},,${port}"
         else
             echo "Port: " ${port} " is already used! Change port in the files (run.sh, sp_conf.py, service_conf.py). This will be better in the future..."
@@ -48,8 +72,13 @@ $sudo docker rm ${name} > /dev/null 2> /dev/null
 ${sudo} docker run --rm=true \
     --name ${name} \
     --hostname localhost \
-    -v $PWD/etc:/opt/pefim/etc \
+    -v $PWD/${volume}:/opt/pefim/etc \
     -p ${port}:${port} \
     $DOCKERARGS \
     -i -t \
     ${image}
+
+# delete port forwarding
+if [ $(uname) = "Darwin" ] && [ ${port_b2d} = 1 ]; then
+    VBoxManage controlvm "boot2docker-vm" natpf1 delete "${name}"
+fi
