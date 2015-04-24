@@ -17,6 +17,8 @@ Install PEFIM idp using docker
 
 Download the PEFIM docker project from: https://github.com/its-dirg/pefim_sp_docker
 
+The scripts has been verified in OS X Yosemite, CentOS 7 and Ubuntu 14.04.
+
 All files necessary to build the PEFIM sp image are located in the dockerfiles directory. To build the image run the script::
 
     dockerfiles/build.sh
