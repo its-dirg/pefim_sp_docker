@@ -17,7 +17,7 @@ foreach ($file in $files){
 	sed -i 's/\r//' ${file}
 }
 
-docker rmi -f "${repository}"
+docker rmi -f "${repository}" 2>&1> $null;
 docker build -t="${repository}" .
 
 Write-Host "End build"
