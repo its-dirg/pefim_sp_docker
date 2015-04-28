@@ -6,6 +6,10 @@ IF (!($Env:Path | Select-String -SimpleMatch $ssh_path)){
 	$Env:Path = "${Env:Path};$ssh_path"
 }
 
+IF ($(Boot2Docker status) -ne "running"){
+	$(Boot2Docker start)
+}
+
 IF ($Env:DOCKER_HOST.length -eq 0){
 	boot2docker shellinit | Invoke-Expression
 }
