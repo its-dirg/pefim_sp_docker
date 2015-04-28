@@ -25,11 +25,8 @@ $ssh_path = "c:\Program Files (x86)\Git\bin"
 [int]$port_check=[convert]::ToInt32($(netstat -an | grep ${port} | wc -l))
 [int]$port_b2d=[convert]::ToInt32($(& "C:\Program Files\Oracle\VirtualBox\VBoxManage.exe" showvminfo "boot2docker-vm" --details | grep ${port} | wc -l))
 
-write-host $port_b2d
-write-host $port_check
 IF ($port_b2d -eq 0){
 	IF ($port_check -eq 0 ){
-		write-host "hubba"
 		$port_b2d=1
 		& "C:\Program Files\Oracle\VirtualBox\VBoxManage.exe" controlvm "boot2docker-vm" natpf1 "${name},tcp,127.0.0.1,${port},,${port}"
 	}
