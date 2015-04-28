@@ -64,6 +64,14 @@ Replace the metadata in <strong>example/etc/metadata</strong> with your metadata
 <div class="highlight-python"><div class="highlight"><pre><span class="n">example</span><span class="o">/</span><span class="n">run</span><span class="o">.</span><span class="n">sh</span>
 </pre></div>
 </div>
+<p>If you are running windows there exists powershell scripts. The scripts are not signed so you have to give yourself
+permission to run them. One example to run the scripts:</p>
+<p>To build the image:
+cd [..]/dockerfiles/
+PowerShell.exe -ExecutionPolicy Bypass -File build.ps1</p>
+<p>To start:
+cd [..]/example/
+PowerShell.exe -ExecutionPolicy Bypass -File run.ps1</p>
 </div>
 </div>
 
