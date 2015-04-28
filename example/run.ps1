@@ -2,6 +2,13 @@ param([switch] $debug)
 
 Write-Host "Start script"
 
+#Remove windows CR
+
+$files = gci ./etc *.* -File -rec | where {! $_.ps1} | %{$_.FullName}
+foreach ($file in $files){
+	sed -i 's/\r//' ${file}
+}
+
 # Name of config file
 $conf="service_conf.py"
 
