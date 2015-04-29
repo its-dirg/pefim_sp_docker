@@ -50,7 +50,7 @@ if [ $(uname) = "Darwin" ]; then
     $(boot2docker shellinit)
 else
     # if running on linux
-    if [ $(id -u) -ne 0 ]; then
+    if [ $(id -u) -ne 0 ] && [ $(grep docker /etc/group | grep $USER | wc -l) = 0 ]; then
         sudo="sudo"
     fi
 fi
