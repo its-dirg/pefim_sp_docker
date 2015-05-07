@@ -5,6 +5,11 @@
 #   DOCKERARGS="--entrypoint /bin/bash" bash -x ./run.sh
 #
 
+c_path=$(pwd)
+cddir=$(dirname `which $0`)
+#Go to correct directory
+cd $cddir
+
 # Name of config file
 conf=service_conf.py
 
@@ -77,3 +82,6 @@ ${sudo} docker run --rm=true \
 if [ $(uname) = "Darwin" ] && [ ${port_b2d} = 1 ]; then
     VBoxManage controlvm "boot2docker-vm" natpf1 delete "${name}"
 fi
+
+#Return to starting path
+cd $c_path
