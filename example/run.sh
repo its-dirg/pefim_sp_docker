@@ -22,7 +22,7 @@ name=pefim_sp
 # relative path to volume
 volume=etc
 
-port=$(cat ${volume}/${conf} | grep PORT | head -1 | sed 's/[^0-9]//g')
+port=$(cat ${volume}/${conf} | grep PORT | grep -v "#" | head -1 | sed 's/[^0-9]//g')
 
 dir=$(pwd)
 
